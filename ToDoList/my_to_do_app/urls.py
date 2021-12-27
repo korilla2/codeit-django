@@ -7,5 +7,6 @@ urlpatterns = [
 
     path('', views.index, name='index'),
     path('createTodo/', views.createTodo),
+    path('list/', views.list),
 
 ]

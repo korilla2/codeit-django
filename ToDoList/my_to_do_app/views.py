@@ -21,3 +21,7 @@ def createTodo(request):
     new_todo = Todo(content=user_input_str)
     new_todo.save()
     return HttpResponseRedirect(reverse('index'))
+
+
+def list(request):
+    return render(request, 'my_to_do_app/list.html')
