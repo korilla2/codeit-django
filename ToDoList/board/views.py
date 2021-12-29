@@ -25,10 +25,10 @@ def list(request):
     return render(request, 'board/list.html', content)
 
 
-def delete(request, pk):
-    post = Board.objects.get(id=pk)
+def delete(request):
+    post = Board.objects.get(id=request.GET['id'])
     post.delete()
-    return HttpResponseRedirect(reverse('main'))
+    return HttpResponseRedirect(reverse('list'))
 
 
 def detail(request, pk):
@@ -37,25 +37,17 @@ def detail(request, pk):
     return render(request, 'board/detail.html', content)
 
 
-def update(request, pk):
-    post = Board.objects.get(id=pk)
+def update(request):
+    post = Board.objects.get(id=request.GET['id'])
+
+    return render(request, 'board/update.html', {'post': post})
+
+
+def modify(request):
+    post = Board.objects.get(id=request.POST['id'])
+    post.createdate = request.POST['createdate']
+    post.subject = request.POST['subject']
+    post.writer = request.POST['writer']
+    post.content = request.POST['content']
     post.save()
-
-    return render(request, 'board/update2.html', {'post': post})
-
-
-def update2(request):
-    data = Board(
-        createdate=request.POST['createdate'], writer=request.POST['writer'], subject=request.POST['subject'], content=request.POST['content'])
-
-    data.save()
-
-    return render(request, 'board/detail.html', {'data': data})
-
-
-def create2(request):
-    data = Board(
-        createdate=request.POST['createdate'], writer=request.POST['writer'], subject=request.POST['subject'], content=request.POST['content'])
-    data.save()
-
-    return render(request, 'board/detail.html', {'post': data})
+    return HttpResponseRedirect(reverse('list'))

@@ -33,38 +33,30 @@
     <hr>
     <a href="{% url 'main' %}">메인페이지로</a>
     <div class='container'>
-        <form action='/board/update/' method='POST' name='baseform'>
+        <form action='/board/modify/' method='POST' name='baseform'>
             {% csrf_token %}
+            <input type='hidden' name='id' value='{{post.id}}'>
             <div class="form-group">
                 <label for="exampleInputPassword1">작성 날짜</label>
-                <input type="date" class="form-control" id='now_date' name='createdate'>
-                <script>
-                    document.getElementById('now_date').valueAsDate = new Date();
-                </script>
-                <td>{{post.id}}</td>
-                <td>{{post.createdate}}</td>
-                <td>{{post.writer}}</td>
-                <td>{{post.subject}}</td>
-                <td>{{post.content}}</td>
+                <input type="date" class="form-control" id='now_date' name='createdate' ,
+                    value="{{post.createdate | date:'Y-m-d'}}">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">작성자</label>
-                <input type="text" class="form-control" placeholder="작성자" name='writer'>
+                <input type="text" class="form-control" placeholder="작성자" name='writer' value='{{post.writer}}'>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">글 제목</label>
-                <input type="text" class="form-control" name='subject'>
+                <input type="text" class="form-control" name='subject' value='{{post.subject}}'>
             </div>
             <div class="form-group">
                 <label for="exampleInputFile">게시글</label>
-                <textarea class="form-control" rows=10 name='content'></textarea>
+                <textarea class="form-control" rows=10 name='content'>{{post.content}}
+                </textarea>
 
 
 
-                <td><button type='submit'>
-                        <div class="btn_modify"><a href="{% url 'update'%}">수정</a></div>
-                    </button>
-                </td>
+                <button type="submit" class="btn btn-default">수정</button>
 
 
 
