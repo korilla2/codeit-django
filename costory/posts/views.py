@@ -29,3 +29,9 @@ def post_create(request):
     else:
         post_form = PostForm()
     return render(request, 'posts/post_form.html', {'form': post_form})
+
+
+def post_update(request, post_id):
+    post = Post.objects.get(id=post_id)
+    post_form = PostForm(instance=post)
+    return render(request, 'posts/post_form.html', {'form': post_form})
