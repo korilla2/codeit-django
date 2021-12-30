@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link type='text/css' rel='stylesheet' href='{% static "bootstrap.min.css" %}' />
+    <link type='text/css' rel='stylesheet' href='{% static "bootstrap-theme.min.css" %}' />
+    <link type='text/css' rel='stylesheet' href='{% static "list.css" %}' />
+</head>
+
+<body>
+    {% block login %}
+    {% endblock login %}
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'main' %}">아주 간단한 게시판</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+
+
+                <div class="navbar-form navbar-right">
+                    <form action="/board/login/" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-info">Sign in</button>
+                    </form>
+                    <form action="/board/signup/" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-success">Sign up</button>
+                    </form>
+                    <a>{{ user }}</a>
+                    <a href="{% url 'logout' %}?next={{ request.path }}"
+                        onclick="return confirm('정말로 로그아웃 하시겠습니까?');">로그아웃</a>
+                </div>
+
+
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    <hr>
+
+    {% block content %}
+
+    {% endblock content %}
+</body>
+
+</html>

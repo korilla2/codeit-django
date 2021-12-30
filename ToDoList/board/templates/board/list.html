@@ -1,89 +1,67 @@
+{% extends './base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
+{% block content %}
+<div class="container">
+    <table class='table'>
+        <thead>
+            <tr>
+                <th> 번호 </th>
+                <th> 시간 </th>
+                <th> 작성자 </th>
+                <th> 제목 </th>
+                <th> 내용 </th>
+            </tr>
+        </thead>
+        {{user}}
+        <tbody>
+            {{comment}}
+            {% for row in rows %}
 
-<head>
-    <meta charset="utf-8">
+            <tr>
+                <td>{{row.id}}</td>
+                <td>{{row.createdate}}</td>
 
-    <link type='text/css' rel='stylesheet' href="{% static 'my_to_do_app/bootstrap.min.css' %}" />
-    <link type='text/css' rel='stylesheet' href="{% static 'my_to_do_app/bootstrap-theme.min.css' %}" />
-    <link type='text/css' rel='stylesheet' href="{% static 'my_to_do_app/list.css' %}" />
-</head>
-
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">아주 간단한 게시판</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" placeholder="ID" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
-            </div>
-            <!--/.navbar-collapse -->
-        </div>
-    </nav>
-
-    <div class="container">
-        <table class='table'>
-            <thead>
-                <tr>
-                    <th> 번호 </th>
-                    <th> 시간 </th>
-                    <th> 작성자 </th>
-                    <th> 제목 </th>
-                    <th> 내용 </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for row in rows %}
-
-                <tr>
-                    <td>{{row.id}}</td>
-                    <td>{{row.createdate}}</td>
-                    <td>{{row.writer}}</td>
-                    <td>{{row.subject}}</td>
-                    <td>{{row.content}}</td>
-
-                    <td>
-                        <a href='/board/update/?id={{row.id}}'>
-                            <button type='submit' class='btn btn-default'>수정</button>
-                        </a>
-                    </td>
-
-                    <td>
-                        <form action='/board/delete/' method='GET'>
-                            <input type="hidden" name=id value={{row.id}}>
-                            <button type='submit' class='btn btn-default'>삭제</button>
-                        </form>
-                    </td>
+                <td>{{row.user.username}}</td>
+                <td>{{row.subject}}</td>
+                <td>{{row.content}}</td>
 
 
-                </tr>
+                <td>
+                    <form action='/board/comment/' method='POST'>{% csrf_token %}
+                        <input type="hidden" name=id value={{row.id}}>
+                        <button type='submit' class='btn btn-default'>댓글달기</button>
+                    </form>
+                </td>
 
-                {% endfor %}
-            </tbody>
+                {% if request.user.is_authenticated %}
+                {% if request.user.username == row.user.username %}
+                <td>
+                    <a href='/board/update/?id={{row.id}}'>
+                        <button type='submit' class='btn btn-default'>수정</button>
+                    </a>
+                </td>
+                <td>
+                    <form action='/board/delete/' method='GET'>
+                        <input type="hidden" name=id value={{row.id}}>
+                        <button type='submit' class='btn btn-default'>삭제</button>
+                    </form>
+                </td>
+                {% else %}
+                <td></td>
+                <p></p>
+                <p></p>
+                <p></p>
+                <td></td>
 
-        </table>
-    </div>
-    <a href="{% url 'main' %}">
-        <button type="button" class="btn btn-default">게시판</button>
-    </a>
+                {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
 </body>
 
 </html>

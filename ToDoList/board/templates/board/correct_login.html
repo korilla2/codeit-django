@@ -1,4 +1,10 @@
 {% extends './base.html' %}
+
+{% block login %}
+로그인 되었습니다
+아이디: {{user.username}}비밀번호 : {{user.password}}
+{% endblock login %}
+
 {% block content %}
 <div class='container'>
     <form action='/board/create/' method='POST' name='baseform'>

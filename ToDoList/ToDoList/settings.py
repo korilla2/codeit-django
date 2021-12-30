@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['125.132.5.216', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'board',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'my_to_do_app',
-    'board',
+
+
 ]
 
 MIDDLEWARE = [
@@ -113,6 +115,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = '/board/'
+LOGOUT_REDIRECT_URL = '/board/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
