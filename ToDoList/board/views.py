@@ -42,6 +42,8 @@ def create(request):
 
 def list(request):
     rows = Board.objects.all()
+    posts = Comment.objects.all()
+    content2 = {'posts': posts}
     content = {'rows': rows}
     return render(request, 'board/list.html', content)
 
